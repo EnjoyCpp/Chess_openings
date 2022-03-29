@@ -14,10 +14,10 @@ db.run('CREATE TABLE IF NOT EXISTS emp(id TEXT, author TEXT, opening TEXT, year 
 
 
 app.get('/', function(req,res){
-    res.send("<h3> Hi there, You are going to perform CRUD operations... <br>"
-    + "[CREATE] Please enter 'http://localhost:5000/add/(id number)/(name)/(opening)' to add new opening to the database...\ <br>"
+    res.send("<h3> ...CRUD OPERATIONS... <br>"
+    + "[CREATE] Please enter 'http://localhost:5000/add/(id number)/(name)/(opening)/(year)' to add new opening to the database...\ <br>"
     + "[READ] 'http://localhost:5000/view/(id number)' opening... \ <br>"
-    + "[UPDATE] 'http://localhost:5000/update/(id number)/(new name)' to update an opening...\ <br>"
+    + "[UPDATE] 'http://localhost:5000/update/(id number)/(new author)/(new opening)/new(year)' to update an opening...\ <br>"
     + "[DELETE] 'http://localhost:5000/del/(id number)' to delete an opening...\ <br>"
     + "Before closing this window, kindly enter 'http://localhost:5000/close' to close the database connection <h3>");
   });
@@ -53,7 +53,7 @@ app.get('/view/:id', function(req,res){
 
 app.get('/update/:id/:author/:opening/:year', function(req,res){
     db.serialize(()=>{
-      db.run('UPDATE emp SET name = ?, author = ?, opening = ?, year = ? WHERE id = ?', [req.params.name,req.params.id], function(err){
+      db.run('UPDATE emp SET author = ?, opening = ?, year = ? WHERE id = ?', [req.params.name,req.params.id], function(err){
         if(err){
           res.send("Error encountered while updating");
           return console.error(err.message);
