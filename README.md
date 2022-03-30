@@ -15,24 +15,24 @@ and then
 ### CREATE
 
 ```http://localhost:5000/add/(id number)/(name)/(opening)/(year)```
-\newline
+<br>
 to create new entry with id, name, opening, year
 
 ### READ
 
 ```http://localhost:5000/view/id```
-\newline
+<br>
 to read entry by id
 
 ### UPDATE
 
 ```http://localhost:5000/update/(id number)/(new author)/(new opening)/new(year)```
-\newline
+<br>
 to update entry by id
 
 ### DELETE
 
 ```http://localhost:5000/del/(id number)```
-\newline
+<br>
 to delete entry with id
 
