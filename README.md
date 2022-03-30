@@ -1,6 +1,6 @@
 # Chess_openings
 ## Building project
-```git clone```
+```git clone https://github.com/EnjoyCpp/Chess_openings.git```
 
 ```cd Chess_openings```
 
