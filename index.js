@@ -24,7 +24,7 @@ app.get('/', function(req,res){
 
 
 //CREATE
-app.get('/add/:id/:author/:opening/:year', function(req,res){
+app.put('/add/:id/:author/:opening/:year', function(req,res){
   db.serialize(()=>{
     db.run('INSERT INTO emp(id,author,opening,year) VALUES(?,?,?,?)', 
             [req.params.id, req.params.author,req.params.opening, req.params.year], function(err) {
@@ -51,7 +51,7 @@ app.get('/view/:id', function(req,res){
   });
 //UPDATE
 
-app.get('/update/:id/:author/:opening/:year', function(req,res){
+app.put('/update/:id/:author/:opening/:year', function(req,res){
     db.serialize(()=>{
       db.run('UPDATE emp SET author = ?, opening = ?, year = ? WHERE id = ?', [req.params.name,req.params.id], function(err){
         if(err){
@@ -65,7 +65,7 @@ app.get('/update/:id/:author/:opening/:year', function(req,res){
   });
 
 //DELETE
-app.get('/del/:id', function(req,res){
+app.del('/del/:id', function(req,res){
     db.serialize(()=>{
       db.run('DELETE FROM emp WHERE id = ?', req.params.id, function(err) {
         if (err) {
