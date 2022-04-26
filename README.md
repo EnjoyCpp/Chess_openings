@@ -12,27 +12,39 @@ and then
 
 ## CRUD
 
-### CREATE
+## Usage
+Test the API with [Postman](https://www.postman.com/).
 
-```http://localhost:5000/add/(id number)/(name)/(opening)/(year)```
-<br>
-to create new entry with id, name, opening, year
+### Example JSON
+
+{
+  "author": "James Mason",
+  "title": "London System",
+  "year": "1922"
+
+}
 
 ### READ
 
-```http://localhost:5000/view/id```
+http://localhost:5000/Chess_openings/
 <br>
 to read entry by id
+http://localhost:5000/Chess_openings/:id
 
 ### UPDATE
 
-```http://localhost:5000/update/(id number)/(new author)/(new opening)/new(year)```
-<br>
-to update entry by id
+USING POSTMAN and sending PUT request
+{
+  "id": 4
+  "author": "James Mason",
+  "title": "London System",
+  "year": "1922"
+
+}
 
 ### DELETE
 
-```http://localhost:5000/del/(id number)```
-<br>
-to delete entry with id
+USING POSTMAN and sending DELETE request
+
+http://localhost:5000/Chess_openings/:id
 

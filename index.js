@@ -65,7 +65,7 @@ app.put("/Chess_openings/", (req, res, next) => {
                 res.status(400).json({ "error": res.message })
                 return;
             }
-            res.status(200).json({ updatedID: this.changes });
+            res.status(200).json({ updatedID: reqBody.id });
         });
 });
 
@@ -80,7 +80,7 @@ app.patch("/Chess_openings/", (req, res, next) => {
                 res.status(400).json({ "error": res.message })
                 return;
             }
-            res.status(200).json({ updatedID: this.changes });
+            res.status(200).json({ updatedID: reqBody.id });
         });
 });
 
@@ -93,7 +93,7 @@ app.delete("/Chess_openings/:id", (req, res, next) => {
                 res.status(400).json({ "error": res.message })
                 return;
             }
-            res.status(200).json({ deletedID: this.changes })
+            res.status(200).json({ deletedID: req.params.id })
         });
 });
 
