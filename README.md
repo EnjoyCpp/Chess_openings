@@ -17,23 +17,28 @@ Test the API with [Postman](https://www.postman.com/).
 
 ### Example JSON
 
+```JSON
 {
   "author": "James Mason",
   "title": "London System",
   "year": "1922"
 
 }
+```
 
 ### READ
 
 http://localhost:5000/Chess_openings/
 <br>
 to read entry by id
+<br>
 http://localhost:5000/Chess_openings/:id
 
 ### UPDATE
 
 USING POSTMAN and sending PUT request
+<br>
+```JSON
 {
   "id": 4
   "author": "James Mason",
@@ -41,6 +46,7 @@ USING POSTMAN and sending PUT request
   "year": "1922"
 
 }
+```
 
 ### DELETE
 
