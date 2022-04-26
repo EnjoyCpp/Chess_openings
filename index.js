@@ -1,9 +1,13 @@
 var sqlite3 = require('sqlite3').verbose();
 var express = require('express');
-var http = require('http');
+
+const cors = require('cors');
+var bodyParser = require('body-parser');
 
 var app = express()
-var server = http.createServer(app)
+app.use(cors())
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 //constants 
 const HTTP_PORT = 5000;
@@ -60,7 +64,6 @@ app.get("/Chess_openings", (req, res, next) => {
 });
 
 app.post("/Chess_openings/", (req, res, next) => {
-    console.log(req.author)
     var reqBody = req.body;
     db.run(`INSERT INTO Chess_openings (author, title, year) VALUES (?,?,?)`,
         [req.body.author, req.body.title, req.body.year],
