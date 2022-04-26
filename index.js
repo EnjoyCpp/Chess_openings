@@ -4,91 +4,100 @@ var http = require('http');
 
 var app = express()
 var server = http.createServer(app)
-var db = new sqlite3.Database('./database/chess.db');
 
 //constants 
-const PORT = 5000;
+const HTTP_PORT = 5000;
 
 
-db.run('CREATE TABLE IF NOT EXISTS emp(id TEXT, author TEXT, opening TEXT, year TEXT)');
+app.listen(HTTP_PORT, () => {
+    console.log("Server is listening on port " + HTTP_PORT);
+});
+
+const db = new sqlite3.Database('database/chess.db', (err) => {
+    if (err) {
+        console.error("Erro opening database " + err.message);
+    } else {
+
+        db.run('CREATE TABLE Chess_openings( \
+            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
+            author NVARCHAR(20)  NOT NULL,\
+            title NVARCHAR(20),\
+            year INTEGER\
+        )', (err) => {
+            if (err) {
+                console.log("Table already exists.");
+            }
+            let insert = 'INSERT INTO Chess_openings (author, title, year) VALUES (?,?,?)';
+            db.run(insert, ["Greco","Italian Game",1620]);
+            db.run(insert, ["James Mason","London System",1922]);
+            db.run(insert, ["Horatio Caro and Marcus Kann","Caro–Kann Defence",1886]);
+            db.run(insert, ["Giulio Cesare Polerio","Sicilian Defence",1594]);
+            db.run(insert, ["Ruy López de Segura","Ruy López",1490]);
+        });
+    }
+});
 
 
-app.get('/', function(req,res){
-    res.send("<h3> ...CRUD OPERATIONS... <br>"
-    + "[CREATE] Please enter 'http://localhost:5000/add/(id number)/(name)/(opening)/(year)' to add new opening to the database...\ <br>"
-    + "[READ] 'http://localhost:5000/view/(id number)' opening... \ <br>"
-    + "[UPDATE] 'http://localhost:5000/update/(id number)/(new author)/(new opening)/new(year)' to update an opening...\ <br>"
-    + "[DELETE] 'http://localhost:5000/del/(id number)' to delete an opening...\ <br>"
-    + "Before closing this window, kindly enter 'http://localhost:5000/close' to close the database connection <h3>");
-  });
-
-
-//CREATE
-app.put('/add/:id/:author/:opening/:year', function(req,res){
-  db.serialize(()=>{
-    db.run('INSERT INTO emp(id,author,opening,year) VALUES(?,?,?,?)', 
-            [req.params.id, req.params.author,req.params.opening, req.params.year], function(err) {
-      if (err) {
-        return console.log(err.message);
-      }
-      console.log("New chess opening has been added");
-      res.send("New chess opening has been added into the database with ID = "+req.params.id+ 
-      ", author = "+req.params.author+ ", year= "+req.params.year );
-    });});});
-
-// GET
-app.get('/view/:id', function(req,res){
-    db.serialize(()=>{
-      db.each('SELECT id ID, author AUTHOR, opening OPENING, year YEAR  FROM emp WHERE id =?',[req.params.id], function(err,row){     
-        if(err){
-          res.send("Error encountered while displaying");
-          return console.error(err.message);
-        }
-        res.send(` ID: ${row.ID},    AUTHOR: ${row.AUTHOR}, OPENING: ${row.OPENING}, year: ${row.YEAR}`);
-        console.log("Entry displayed successfully");
-      });
-    });
-  });
-//UPDATE
-
-app.put('/update/:id/:author/:opening/:year', function(req,res){
-    db.serialize(()=>{
-      db.run('UPDATE emp SET author = ?, opening = ?, year = ? WHERE id = ?', [req.params.name,req.params.id], function(err){
-        if(err){
-          res.send("Error encountered while updating");
-          return console.error(err.message);
-        }
-        res.send("Entry updated successfully");
-        console.log("Entry updated successfully");
-      });
-    });
-  });
-
-//DELETE
-app.del('/del/:id', function(req,res){
-    db.serialize(()=>{
-      db.run('DELETE FROM emp WHERE id = ?', req.params.id, function(err) {
+app.get("/Chess_openings/:id", (req, res, next) => {
+    var params = [req.params.id]
+    db.get(`SELECT * FROM Chess_openings where id = ?`, [req.params.id], (err, row) => {
         if (err) {
-          res.send("Error encountered while deleting");
-          return console.error(err.message);
+          res.status(400).json({"error":err.message});
+          return;
         }
-        res.send("Entry deleted");
-        console.log("Entry deleted");
+        res.status(200).json(row);
       });
-    });});
+});
+
+app.get("/Chess_openings", (req, res, next) => {
+    db.all("SELECT * FROM Chess_openings", [], (err, rows) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.status(200).json({rows});
+      });
+});
+
+app.post("/Chess_openings/", (req, res, next) => {
+    var reqBody = re.body;
+    db.run(`INSERT INTO Chess_openings (author, title, year) VALUES (?,?,?,?)`,
+        [reqBody.author, reqBody.title, reqBody.year],
+        function (err, result) {
+            if (err) {
+                res.status(400).json({ "error": err.message })
+                return;
+            }
+            res.status(201).json({
+                "id": this.lastID
+            })
+        });
+});
 
 
-//CLOSE
-app.get('/close', function(req,res){
-    db.close((err) => {
-      if (err) {
-        res.send('There is some error in closing the database');
-        return console.error(err.message);
-      }
-      console.log('Closing the database connection.');
-      res.send('Database connection successfully closed');
-    });});
+app.patch("/Chess_openings/", (req, res, next) => {
+    var reqBody = re.body;
+    db.run(`UPDATE Chess_openings set author = ?, title = ?, year = ? WHERE id = ?`,
+        [reqBody.author, reqBody.title, reqBody.year, reqBody.id],
+        function (err, result) {
+            if (err) {
+                res.status(400).json({ "error": res.message })
+                return;
+            }
+            res.status(200).json({ updatedID: this.changes });
+        });
+});
 
 
-server.listen(PORT,function(){
-    console.log("Server listening on port: 5000")});
+app.delete("/Chess_openings/:id", (req, res, next) => {
+    db.run(`DELETE FROM user WHERE id = ?`,
+        req.params.id,
+        function (err, result) {
+            if (err) {
+                res.status(400).json({ "error": res.message })
+                return;
+            }
+            res.status(200).json({ deletedID: this.changes })
+        });
+});
+
