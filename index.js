@@ -59,33 +59,25 @@ app.get("/Chess_openings", (req, res, next) => {
       });
 });
 
-
 app.post("/Chess_openings/", (req, res, next) => {
-    var errors=[]
-
-    var data = {
-        author: req.body.author,
-        title: req.body.title,
-        year : req.body.year
-    }
-    var sql ='INSERT INTO user (author, title, year) VALUES (?,?,?)'
-    var params =[data.author, data.title, data.year]
-    db.run(sql, params, function (err, result) {
-        if (err){
-            res.status(400).json({"error": err.message})
-            return;
-        }
-        res.json({
-            "message": "success",
-            "data": data,
-            "id" : this.lastID
-        })
-    });
-})
+    console.log(req.author)
+    var reqBody = req.body;
+    db.run(`INSERT INTO Chess_openings (author, title, year) VALUES (?,?,?)`,
+        [req.body.author, req.body.title, req.body.year],
+        function (err, result) {
+            if (err) {
+                res.status(400).json({ "error": err.message })
+                return;
+            }
+            res.status(201).json({
+                "id": this.lastID
+            })
+        });
+});
 
 
 app.patch("/Chess_openings/", (req, res, next) => {
-    var reqBody = re.body;
+    var reqBody = req.body;
     db.run(`UPDATE Chess_openings set author = ?, title = ?, year = ? WHERE id = ?`,
         [reqBody.author, reqBody.title, reqBody.year, reqBody.id],
         function (err, result) {
