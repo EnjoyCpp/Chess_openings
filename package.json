@@ -9,7 +9,7 @@
   "author": "Enjoy",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.3",
-    "sqlite3": "^5.0.2"
+    "express": "^4.18.0",
+    "sqlite3": "^5.0.5"
   }
 }

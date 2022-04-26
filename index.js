@@ -59,20 +59,29 @@ app.get("/Chess_openings", (req, res, next) => {
       });
 });
 
+
 app.post("/Chess_openings/", (req, res, next) => {
-    var reqBody = re.body;
-    db.run(`INSERT INTO Chess_openings (author, title, year) VALUES (?,?,?,?)`,
-        [reqBody.author, reqBody.title, reqBody.year],
-        function (err, result) {
-            if (err) {
-                res.status(400).json({ "error": err.message })
-                return;
-            }
-            res.status(201).json({
-                "id": this.lastID
-            })
-        });
-});
+    var errors=[]
+
+    var data = {
+        author: req.body.author,
+        title: req.body.title,
+        year : req.body.year
+    }
+    var sql ='INSERT INTO user (author, title, year) VALUES (?,?,?)'
+    var params =[data.author, data.title, data.year]
+    db.run(sql, params, function (err, result) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": data,
+            "id" : this.lastID
+        })
+    });
+})
 
 
 app.patch("/Chess_openings/", (req, res, next) => {
@@ -90,7 +99,7 @@ app.patch("/Chess_openings/", (req, res, next) => {
 
 
 app.delete("/Chess_openings/:id", (req, res, next) => {
-    db.run(`DELETE FROM user WHERE id = ?`,
+    db.run(`DELETE FROM Chess_openings WHERE id = ?`,
         req.params.id,
         function (err, result) {
             if (err) {
