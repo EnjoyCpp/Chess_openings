@@ -70,7 +70,7 @@ app.put("/Chess_openings/", (req, res, next) => {
 });
 
 
-app.patch("/Chess_openings/:id/$author/:author", (req, res, next) => {
+app.patch("/Chess_openings/", (req, res, next) => {
     var reqBody = req.body;
     console.log(reqBody)
     db.run(`UPDATE Chess_openings set author = ? WHERE id = ?`,
