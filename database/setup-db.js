@@ -9,7 +9,8 @@ const db = new sqlite3.Database('chess.db', (err) => {
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
             author NVARCHAR(20)  NOT NULL,\
             title NVARCHAR(20),\
-            year INTEGER\
+            year INTEGER,\
+            color NVARCHAR(20) DEFAULT "White"\
         )', (err) => {
             if (err) {
                 console.log("Table already exists.");

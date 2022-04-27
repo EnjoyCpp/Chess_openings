@@ -91,7 +91,6 @@ app.patch("/Chess_openings/:id", (req, res, next) => {
 });
 
 app.delete("/Chess_openings/:id", (req, res, next) => {
-  var sql = `DELETE FROM Chess_openings WHERE id = ?`;
     db.run(`DELETE FROM Chess_openings WHERE id = ?`,
         req.params.id,
         function (err, result) {
