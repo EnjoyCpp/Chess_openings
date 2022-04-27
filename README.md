@@ -100,6 +100,7 @@ USING POSTMAN and sending DELETE request
 
 http://localhost:5000/Chess_openings/:id
 
+Example: DELETE http://localhost:5000/Chess_openings/3
 If request is succestful response is :
 
 ```JSON
