@@ -65,6 +65,10 @@ app.put("/Chess_openings/:id", (req, res, next) => {
                 res.status(400).json({ "error": res.message })
                 return;
             }
+            if(this.changes == 0) {
+              res.status(404).json({"error": "Entry cannot be UPDATED"})
+              return
+            }
             res.status(200).json({ updatedID: req.params.id });
         });
 });
@@ -78,18 +82,30 @@ app.patch("/Chess_openings/:id", (req, res, next) => {
                 res.status(400).json({ "error": res.message })
                 return;
             }
+            if(this.changes == 0) {
+              res.status(404).json({"error": "Entry cannot be PATCHED"})
+              return
+            }
             res.status(200).json({ updatedID: req.params.id });
         });
 });
 
 app.delete("/Chess_openings/:id", (req, res, next) => {
+  var sql = `DELETE FROM Chess_openings WHERE id = ?`;
     db.run(`DELETE FROM Chess_openings WHERE id = ?`,
         req.params.id,
         function (err, result) {
             if (err) {
-                res.status(400).json({ "error": res.message })
-                return;
+                //res.status(500).json({ "error": res.message })
+                //return;
+              res.status(400).json({"error": res.message})
+              return
             }
-            res.status(200).json({ deletedID: req.params.id })
+            if(this.changes == 0) {
+              res.status(404).json({"error": "Entry is deleted"})
+              return
+            }
+            res.json({"message":"Deleted", DeletedID: this.lastID})
+
         });
 });
