@@ -98,3 +98,11 @@ USING POSTMAN and sending DELETE request
 
 http://localhost:5000/Chess_openings/:id
 
+If request is succestful response is :
+
+```JSON
+
+{
+    "deletedID": "3"
+}
+```
