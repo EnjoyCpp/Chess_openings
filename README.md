@@ -22,7 +22,6 @@ Test the API with [Postman](https://www.postman.com/).
   "author": "James Mason",
   "title": "London System",
   "year": "1922"
-
 }
 ```
 
@@ -74,9 +73,9 @@ Using POSTMAN and sending PUT request
 ```JSON
 {
   "id": 4
-  "author": "James Mason",
-  "title": "London System",
-  "year": "1922"
+  "author": "Esben Lund and Andreas Skytte Hagen",
+  "title": "King's Indian Defence",
+  "year": "1954"
 }
 ```
 
