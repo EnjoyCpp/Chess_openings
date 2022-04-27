@@ -12,7 +12,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 //constants 
 const HTTP_PORT = 5000;
 
-
 app.listen(HTTP_PORT, () => {
     console.log("Server is listening on port " + HTTP_PORT);
 });
@@ -55,7 +54,6 @@ app.post("/Chess_openings/", (req, res, next) => {
         });
 });
 
-
 app.put("/Chess_openings/", (req, res, next) => {
     var reqBody = req.body;
     db.run(`UPDATE Chess_openings set author = ?, title = ?, year = ? WHERE id = ?`,
@@ -69,10 +67,8 @@ app.put("/Chess_openings/", (req, res, next) => {
         });
 });
 
-
 app.patch("/Chess_openings/", (req, res, next) => {
     var reqBody = req.body;
-    console.log(reqBody)
     db.run(`UPDATE Chess_openings set author = ? WHERE id = ?`,
         [reqBody.author, reqBody.id],
         function (err, result) {
@@ -83,7 +79,6 @@ app.patch("/Chess_openings/", (req, res, next) => {
             res.status(200).json({ updatedID: reqBody.id });
         });
 });
-
 
 app.delete("/Chess_openings/:id", (req, res, next) => {
     db.run(`DELETE FROM Chess_openings WHERE id = ?`,
@@ -96,4 +91,3 @@ app.delete("/Chess_openings/:id", (req, res, next) => {
             res.status(200).json({ deletedID: req.params.id })
         });
 });
-
