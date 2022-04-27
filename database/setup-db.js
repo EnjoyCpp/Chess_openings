@@ -15,12 +15,12 @@ const db = new sqlite3.Database('chess.db', (err) => {
             if (err) {
                 console.log("Table already exists.");
             }
-            let insert = 'INSERT INTO Chess_openings (author, title, year) VALUES (?,?,?)';
-            db.run(insert, ["Greco","Italian Game",1620]);
-            db.run(insert, ["James Mason","London System",1922]);
-            db.run(insert, ["Horatio Caro and Marcus Kann","Caro–Kann Defence",1886]);
-            db.run(insert, ["Giulio Cesare Polerio","Sicilian Defence",1594]);
-            db.run(insert, ["Ruy López de Segura","Ruy López",1490]);
+            let insert = 'INSERT INTO Chess_openings (author, title, year, color) VALUES (?,?,?,?)';
+            db.run(insert, ["Greco","Italian Game",1620,"White"]);
+            db.run(insert, ["James Mason","London System",1922, "White"]);
+            db.run(insert, ["Horatio Caro and Marcus Kann","Caro–Kann Defence",1886, "Black"]);
+            db.run(insert, ["Giulio Cesare Polerio","Sicilian Defence",1594, "Black"]);
+            db.run(insert, ["Ruy López de Segura","Ruy López",1490, "White"]);
         });
     }
 });

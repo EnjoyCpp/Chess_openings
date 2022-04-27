@@ -41,8 +41,11 @@ app.get("/Chess_openings", (req, res, next) => {
 
 app.post("/Chess_openings/", (req, res, next) => {
     var reqBody = req.body;
-    db.run(`INSERT INTO Chess_openings (author, title, year) VALUES (?,?,?)`,
-        [req.body.author, req.body.title, req.body.year],
+    if (reqBody.color == null) {
+      reqBody.color = "White";
+    }
+    db.run(`INSERT INTO Chess_openings (author, title, year,color) VALUES (?,?,?,?)`,
+        [req.body.author, req.body.title, req.body.year, req.body.color],
         function (err, result) {
             if (err) {
                 res.status(400).json({ "error": err.message })
@@ -58,8 +61,12 @@ app.post("/Chess_openings/", (req, res, next) => {
 
 app.put("/Chess_openings/:id", (req, res, next) => {
     var reqBody = req.body;
-    db.run(`UPDATE Chess_openings set author = ?, title = ?, year = ? WHERE id = ?`,
-        [reqBody.author, reqBody.title, reqBody.year, req.params.id],
+    if (reqBody.color == null) {
+      reqBody.color = "White";
+    }
+    console.log(reqBody.color);
+    db.run(`UPDATE Chess_openings set author = ?, title = ?, year = ?, color = ? WHERE id = ?`,
+        [reqBody.author, reqBody.title, reqBody.year,reqBody.color, req.params.id],
         function (err, result) {
             if (err) {
                 res.status(400).json({ "error": res.message })
