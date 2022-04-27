@@ -110,3 +110,8 @@ If request is succestful response is :
     "deletedID": "3"
 }
 ```
+
+### DATABASE
+
+Chess.db database which contains 5 openings was created using <br>
+./database/setup-db.js script
