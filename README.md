@@ -34,6 +34,8 @@ http://localhost:5000/Chess_openings/
 
 ### READ
 
+To get all records
+
 http://localhost:5000/Chess_openings/
 ```JSON
         {
@@ -50,7 +52,7 @@ http://localhost:5000/Chess_openings/
         },
 ```
 <br>
-to read entry by id
+TO READ entry by id
 <br>
 http://localhost:5000/Chess_openings/:id
 
