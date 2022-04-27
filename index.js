@@ -48,35 +48,37 @@ app.post("/Chess_openings/", (req, res, next) => {
                 res.status(400).json({ "error": err.message })
                 return;
             }
+            var location = "/Chess_openings/" + this.lastID;
+            res.set('Location', location)
             res.status(201).json({
                 "id": this.lastID
             })
         });
 });
 
-app.put("/Chess_openings/", (req, res, next) => {
+app.put("/Chess_openings/:id", (req, res, next) => {
     var reqBody = req.body;
     db.run(`UPDATE Chess_openings set author = ?, title = ?, year = ? WHERE id = ?`,
-        [reqBody.author, reqBody.title, reqBody.year, reqBody.id],
+        [reqBody.author, reqBody.title, reqBody.year, req.params.id],
         function (err, result) {
             if (err) {
                 res.status(400).json({ "error": res.message })
                 return;
             }
-            res.status(200).json({ updatedID: reqBody.id });
+            res.status(200).json({ updatedID: req.params.id });
         });
 });
 
-app.patch("/Chess_openings/", (req, res, next) => {
+app.patch("/Chess_openings/:id", (req, res, next) => {
     var reqBody = req.body;
     db.run(`UPDATE Chess_openings set author = ? WHERE id = ?`,
-        [reqBody.author, reqBody.id],
+        [reqBody.author, req.params.id],
         function (err, result) {
             if (err) {
                 res.status(400).json({ "error": res.message })
                 return;
             }
-            res.status(200).json({ updatedID: reqBody.id });
+            res.status(200).json({ updatedID: req.params.id });
         });
 });
 
